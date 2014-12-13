@@ -11,5 +11,5 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.add_dependency 'sparkle_ui'
   s.add_dependency 'sparkle_builder'
-  s.files = Dir['**/*']
+  s.files = Dir['{lib}/**/**/*'] + %w(fission-app-sparkles.gemspec README.md CHANGELOG.md)
 end
