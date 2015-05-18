@@ -11,26 +11,27 @@ module FissionApp
           :vanity_dns => 'sparkleformation.io'
         )
         feature = Fission::Data::Models::ProductFeature.find_or_create(
-          :name => 'sparkle_ui',
+          :name => 'Stacks UI',
           :product_id => product.id
         )
-        unless(feature.permissions_dataset.where(:name => 'sparkle_ui_access').count > 0)
-          feature.add_permission(
-            :name => 'sparkle_ui_access',
-            :pattern => '/sparkle(?!/builders).*'
-          )
+        permission = Fission::Data::Models::Permission.create(
+          :name => 'Stacks UI access',
+          :pattern => '/sparkle(?!/builders).*'
+        )
+        unless(feature.permissions.include?(permission))
+          feature.add_permission(permissions)
         end
         feature = Fission::Data::Models::ProductFeature.find_or_create(
-          :name => 'sparkle_builder',
+          :name => 'Stacks Builder',
           :product_id => product.id
         )
-        unless(feature.permissions_dataset.where(:name => 'sparkle_builder_access').count > 0)
-          feature.add_permission(
-            :name => 'sparkle_builder_access',
-            :pattern => '/sparkle/builders.*'
-          )
+        permission = Fission::Data::Models::Permission.create(
+          :name => 'Stacks builder access',
+          :pattern => '/sparkle/builders.*'
+        )
+        unless(feature.permissions.include?(permission))
+          feature.add_permission(permissions)
         end
-
       end
 
     end
