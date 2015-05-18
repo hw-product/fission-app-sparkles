@@ -14,7 +14,7 @@ module FissionApp
           :name => 'Stacks UI',
           :product_id => product.id
         )
-        permission = Fission::Data::Models::Permission.create(
+        permission = Fission::Data::Models::Permission.find_or_create(
           :name => 'Stacks UI access',
           :pattern => '/sparkle(?!/builders).*'
         )
@@ -25,7 +25,7 @@ module FissionApp
           :name => 'Stacks Builder',
           :product_id => product.id
         )
-        permission = Fission::Data::Models::Permission.create(
+        permission = Fission::Data::Models::Permission.find_or_create(
           :name => 'Stacks builder access',
           :pattern => '/sparkle/builders.*'
         )
