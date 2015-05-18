@@ -30,7 +30,7 @@ module FissionApp
           :pattern => '/sparkle/builders.*'
         )
         unless(feature.permissions.include?(permission))
-          feature.add_permission(permissions)
+          feature.add_permission(permission)
         end
       end
 
