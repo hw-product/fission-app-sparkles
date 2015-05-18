@@ -19,7 +19,7 @@ module FissionApp
           :pattern => '/sparkle(?!/builders).*'
         )
         unless(feature.permissions.include?(permission))
-          feature.add_permission(permissions)
+          feature.add_permission(permission)
         end
         feature = Fission::Data::Models::ProductFeature.find_or_create(
           :name => 'Stacks Builder',
