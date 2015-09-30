@@ -34,6 +34,14 @@ module FissionApp
         end
       end
 
+      def fission_navigation(product, current_user)
+        if(product.internal_name == 'sparkle')
+          Smash.new('Stacks' => Rails.application.routes.url_helpers.sparkle_stacks_path)
+        else
+          Smash.new
+        end
+      end
+
     end
   end
 end
