@@ -32,6 +32,36 @@ module FissionApp
         unless(feature.permissions.include?(permission))
           feature.add_permission(permission)
         end
+
+      end
+
+      class ViewHelper
+        extend ActionView::Helpers
+        extend ActionView::Helpers::UrlHelper
+      end
+
+      # Add job detail entry for stack if available
+      config.after_initialize do
+        FissionApp::Jobs.custom_job_details.push(
+          proc{|job|
+            if(job.payload.get(:data, :stacks, :name))
+              [
+                [
+                  'Remote Stack',
+                  ViewHelper.link_to(
+                    job.payload.get(:data, :stacks, :name),
+                    Rails.application.routes.url_helpers.sparkle_stack_path(
+                      Base64.urlsafe_encode64(
+                        job.payload.fetch(:data, :stacks, :id, 'UNKNOWN').to_s
+                      ),
+                      :confp => job.payload.fetch(:data, :router, :route_config, 'UNKNOWN')
+                    )
+                  )
+                ]
+              ]
+            end
+          }
+        )
       end
 
       def fission_navigation(product, current_user)
