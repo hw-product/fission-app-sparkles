@@ -8,7 +8,7 @@ module SparkleControllerOverrides
     if(current_user.session[:sparkles_conf])
       route_config = RouteConfig.find_by_name(current_user.session[:sparkles_conf])
       if(route_config && route_config.route.account == current_user.run_state.current_account)
-        o_config = route_config.merged_configuration[:stacks]
+        o_config = route_config.merged_configuration.fetch(:stacks, :orchestration, :api, {})
         unless(o_config.empty?)
           result = memoize(o_config.to_smash.checksum, :direct) do
             provider = Sfn::Provider.new(
