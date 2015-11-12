@@ -6,6 +6,9 @@ module FissionApp
       # features and permissions to allow access to general usage and
       # builder.
       config.to_prepare do |config|
+
+        require_dependency 'fission-app-sparkles/sparkle_stacks_controller_overrides'
+
         product = Fission::Data::Models::Product.find_or_create(
           :name => 'Sparkle',
           :vanity_dns => 'sparkleformation.io'

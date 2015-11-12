@@ -1,4 +1,4 @@
-module SparkleControllerOverrides
+Sparkle::StacksController.class_eval do
 
   def stacks_api
     result = nil
@@ -6,10 +6,11 @@ module SparkleControllerOverrides
       current_user.session[:sparkles_conf] = params[:confp]
     end
     if(current_user.session[:sparkles_conf])
-      route_config = RouteConfig.find_by_name(current_user.session[:sparkles_conf])
+      route_config = Fission::Data::Models::RouteConfig.find_by_name(current_user.session[:sparkles_conf])
       if(route_config && route_config.route.account == current_user.run_state.current_account)
         o_config = route_config.merged_configuration.fetch(:stacks, :orchestration, :api, {})
         unless(o_config.empty?)
+          o_config.delete_if{|k,v| !['provider', 'credentials'].include?(k.to_s)}
           result = memoize(o_config.to_smash.checksum, :direct) do
             provider = Sfn::Provider.new(
               :provider => o_config[:provider],
@@ -38,8 +39,4 @@ module SparkleControllerOverrides
     result
   end
 
-end
-
-unless(Sparkle::StacksController.ancestors.include?(SparkleControllerOverrides))
-  Sparkle::StacksController.send(:include, SparkleControllerOverrides)
 end
