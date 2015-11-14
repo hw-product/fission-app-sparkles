@@ -17,9 +17,7 @@ Sparkle::StacksController.class_eval do
               :miasma => o_config[:credentials],
               :logger => Rails.logger,
               :async => true,
-              :fetch => true,
-              :stack_expansion_interval => 90,
-              :stack_list_interval => 60
+              :fetch => false
             )
             provider.connection.data[:stack_types] = (
               [
