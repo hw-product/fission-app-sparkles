@@ -9,10 +9,8 @@ module FissionApp
 
         require_dependency 'fission-app-sparkles/sparkle_stacks_controller_overrides'
 
-        product = Fission::Data::Models::Product.find_or_create(
-          :name => 'Sparkle',
-          :vanity_dns => 'sparkleformation.io'
-        )
+        product = FissionApp.init_product(:sparkle)
+
         feature = Fission::Data::Models::ProductFeature.find_or_create(
           :name => 'Stacks UI',
           :product_id => product.id
